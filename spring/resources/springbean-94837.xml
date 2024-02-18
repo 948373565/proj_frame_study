@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       https://www.springframework.org/schema/aop/spring-aop.xsd
+       https://www.springframework.org/schema/tx
+       https://www.springframework.org/schema/tx/spring-tx.xsd ">
+<!--    <context:property-placeholder location="classpath:database.properties"></context:property-placeholder>-->
+
+    <context:annotation-config>
+
+    </context:annotation-config>
+    <bean id="student" class="bean.Student">
+<!--    <bean id="student" class="bean.Student" init-method="XXX">-->
+        <property name="name" value="${url}"></property>
+        <property name="teacher" ref="teacher"></property>
+<!--        <constructor-arg name="name" value="小李">-->
+<!--        </constructor-arg>-->
+<!--        <constructor-arg name="teacher" ref="teacher"></constructor-arg>-->
+    </bean>
+    <bean id="teacher" class="bean.Teacher">
+        <property name="name" value="张三"></property>
+        <property name="age" value="33"></property>
+<!--        <constructor-arg name="age" value="33"></constructor-arg>-->
+<!--        <constructor-arg name="name" value="张三"></constructor-arg>-->
+<!--        <constructor-arg name="student" ref="student"></constructor-arg>-->
+    </bean>
+    <bean id="applicationContext" class="config.MyApplicationContext"></bean>
+    <bean id="myBeanPostProcessor" class="config.MyBeanPostProcessor"></bean>
+    <bean id="myBeanFactoryPostProcess" class="config.MyBeanFactoryPostProcess"></bean>
+    <bean id="myLifeCycleProcessor" class="config.MyLifeCycleProcessor"></bean>
+    <bean id="myLifeCycleProcessor2" class="config.MyLifeCycleProcessor2"></bean>
+    <bean id="myListenner" class="config.MyListenner"></bean>
+    <bean id="beanFactoryAware " class="config.MyBeanFactoryAware"></bean>
+    <bean id="myStudentFactoryBean" class="config.MyStudentFactoryBean"></bean>
+    <bean id="myBeanDefinitionRegistry" class="config.MyBeanDefinitionRegistry"></bean>
+    <bean id="advice" class="config.DiyAspect"></bean>
+    <aop:config>
+        <aop:pointcut id="pointcut" expression="execution(* service.impl.UserServiceImpl.* (..))"/>
+        <aop:aspect ref="advice">
+            <aop:before method="before" pointcut-ref="pointcut"></aop:before>
+            <aop:after method="after" pointcut-ref="pointcut"></aop:after>
+            <aop:after-returning method="afterReturn" pointcut-ref="pointcut"></aop:after-returning>
+            <aop:after-throwing method="afterThrow" pointcut-ref="pointcut"></aop:after-throwing>
+            <aop:around method="around" pointcut-ref="pointcut"></aop:around>
+        </aop:aspect>
+    </aop:config>
+    <bean id="useService" class="service.impl.UserServiceImpl"></bean>
+    <bean id="stu" class="service.impl.Student"></bean>
+
+</beans>
